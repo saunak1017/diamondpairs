@@ -12,10 +12,11 @@ function fmtPrice(n: number) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
 }
 
-export default async function PairPage({ params }: { params: { set: string } }) {
+export default async function PairPage({ params }: { params: Promise<{ set: string }> }) {
+  const { set } = await params;
   const { env } = getRequestContext();
   const row = await env.DB.prepare('SELECT data FROM pairs WHERE set_number = ?')
-    .bind(params.set)
+    .bind(set)
     .first<{ data: string }>();
 
   if (!row) notFound();
