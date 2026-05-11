@@ -4,9 +4,11 @@ compatibility_flags = ["nodejs_compat"]
 
 pages_build_output_dir = ".vercel/output/static"
 
-# Run: wrangler kv:namespace create diamondpairs
-# Then replace the placeholder IDs below with your real namespace IDs
-[[kv_namespaces]]
-binding = "DIAMOND_KV"
-id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
-preview_id = "REPLACE_WITH_YOUR_PREVIEW_KV_NAMESPACE_ID"
+# For local preview only (wrangler pages dev).
+# Production bindings are set in the Cloudflare Pages dashboard:
+#   Settings → Functions → D1 Database Bindings → Add binding
+#   Variable name: DB   Database: diamondpairs
+[[d1_databases]]
+binding = "DB"
+database_name = "diamondpairs"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"

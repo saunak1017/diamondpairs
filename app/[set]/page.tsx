@@ -14,11 +14,13 @@ function fmtPrice(n: number) {
 
 export default async function PairPage({ params }: { params: { set: string } }) {
   const { env } = getRequestContext();
-  const raw = await env.DIAMOND_KV.get(`pair:${params.set}`);
-  if (!raw) notFound();
+  const row = await env.DB.prepare('SELECT data FROM pairs WHERE set_number = ?')
+    .bind(params.set)
+    .first<{ data: string }>();
 
-  const pair: DiamondPair = JSON.parse(raw);
-  const [s1, s2] = pair.stones;
+  if (!row) notFound();
+
+  const pair: DiamondPair = JSON.parse(row.data);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -49,16 +51,12 @@ export default async function PairPage({ params }: { params: { set: string } }) 
               <Field label="Ratio" value={fmt(stone.ratio, 3)} />
               <Field label="Color" value={stone.color} />
               <Field label="Clarity" value={stone.clarity} />
-              <Field
-                label="Stone Weight"
-                value={`${fmt(stone.stoneWeight, 3)} ct`}
-                highlight
-              />
+              <Field label="Stone Weight" value={`${fmt(stone.stoneWeight, 3)} ct`} highlight />
             </div>
           </div>
         ))}
 
-        {/* Totals card */}
+        {/* Pair summary */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="bg-gold px-4 py-2.5">
             <span className="text-white text-sm font-semibold">Pair Summary</span>
@@ -72,7 +70,6 @@ export default async function PairPage({ params }: { params: { set: string } }) 
         </div>
       </div>
 
-      {/* Footer */}
       <p className="text-center text-xs text-gray-400 py-8">
         Shivani Gems &mdash; Lot {pair.setNumber}
       </p>
@@ -80,15 +77,7 @@ export default async function PairPage({ params }: { params: { set: string } }) 
   );
 }
 
-function Field({
-  label,
-  value,
-  highlight,
-}: {
-  label: string;
-  value: string;
-  highlight?: boolean;
-}) {
+function Field({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div>
       <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">{label}</p>
@@ -99,15 +88,7 @@ function Field({
   );
 }
 
-function SummaryRow({
-  label,
-  value,
-  large,
-}: {
-  label: string;
-  value: string;
-  large?: boolean;
-}) {
+function SummaryRow({ label, value, large }: { label: string; value: string; large?: boolean }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-sm text-gray-600">{label}</span>

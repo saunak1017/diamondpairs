@@ -1,3 +1,3 @@
 interface CloudflareEnv {
-  DIAMOND_KV: KVNamespace;
+  DB: D1Database;
 }
