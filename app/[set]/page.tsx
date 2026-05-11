@@ -40,7 +40,7 @@ export default async function PairPage({ params }: { params: Promise<{ set: stri
       </div>
 
       {/* Lot + shape — dark navy */}
-      <div className="bg-blue-900 px-6 py-4 text-center">
+      <div className="bg-[#0D2461] px-6 py-4 text-center">
         <h1 className="text-2xl font-bold text-white tracking-tight">
           Lot {pair.setNumber}
         </h1>

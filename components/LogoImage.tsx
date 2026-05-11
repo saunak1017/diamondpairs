@@ -1,26 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// Tries each candidate in order until one loads successfully.
-// Add your logo file to /public/ with any of these names.
 const CANDIDATES = [
-  '/Shivani.png', '/Shivani.PNG', '/Shivani.jpg', '/Shivani.JPG',
-  '/Shivani.jpeg', '/Shivani.JPEG', '/Shivani.webp', '/Shivani.svg',
-  '/logo.png', '/logo.PNG', '/logo.jpg', '/logo.JPG', '/logo.svg', '/logo.webp',
+  '/Shivani.PNG', '/Shivani.png', '/Shivani.jpg', '/Shivani.JPG',
+  '/Shivani.jpeg', '/Shivani.webp', '/Shivani.svg',
+  '/logo.PNG', '/logo.png', '/logo.jpg', '/logo.JPG', '/logo.svg',
 ];
 
 export function LogoImage({ className }: { className?: string }) {
-  const [index, setIndex] = useState(0);
+  const [src, setSrc] = useState<string | null>(null);
 
-  if (index >= CANDIDATES.length) return null;
+  useEffect(() => {
+    const cached = sessionStorage.getItem('logo_src');
+    if (cached) { setSrc(cached); return; }
 
-  return (
-    <img
-      src={CANDIDATES[index]}
-      alt="Shivani Gems"
-      className={className}
-      onError={() => setIndex((i) => i + 1)}
-    />
-  );
+    let cancelled = false;
+    (async () => {
+      for (const path of CANDIDATES) {
+        try {
+          const res = await fetch(path, { method: 'HEAD' });
+          if (res.ok && !cancelled) {
+            sessionStorage.setItem('logo_src', path);
+            setSrc(path);
+            return;
+          }
+        } catch {}
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  if (!src) return null;
+  return <img src={src} alt="Shivani Gems" className={className} />;
 }
