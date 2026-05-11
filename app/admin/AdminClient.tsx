@@ -267,11 +267,22 @@ export default function AdminClient() {
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-5xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Diamond Pairs Admin</h1>
-          <p className="text-gray-500 text-sm mt-1">
-            Upload your inventory Excel to publish pairs and generate QR codes.
-          </p>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Diamond Pairs Admin</h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Upload your inventory Excel to publish pairs and generate QR codes.
+            </p>
+          </div>
+          <button
+            onClick={async () => {
+              await fetch('/api/admin-logout', { method: 'POST' });
+              window.location.href = '/admin/login';
+            }}
+            className="text-xs text-gray-400 hover:text-gray-600 underline mt-1 shrink-0"
+          >
+            Log out
+          </button>
         </div>
 
         {/* Config + Upload card */}

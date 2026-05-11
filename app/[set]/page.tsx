@@ -26,47 +26,61 @@ export default async function PairPage({ params }: { params: Promise<{ set: stri
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-5">
-        <p className="text-xs font-semibold tracking-widest text-gold uppercase mb-1">
-          Shivani Gems
+      <div className="bg-white border-b border-gray-100 px-6 py-5 text-center">
+        <div className="flex justify-center mb-3">
+          <img src="/Shivani.png" alt="Shivani Gems" className="h-12 object-contain" />
+        </div>
+        <p className="text-xs text-gray-500 leading-relaxed">
+          589 5th Ave, Suite 1107, New York, NY 10017
         </p>
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-          Lot {pair.setNumber}
-        </h1>
-        <p className="text-sm text-gray-500 mt-0.5">Diamond Pair</p>
+        <p className="text-xs text-gray-500">
+          sales@shivanigems.com&nbsp;&nbsp;|&nbsp;&nbsp;212-593-2750
+        </p>
+        <div className="border-t border-gray-100 mt-4 pt-4">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+            Lot {pair.setNumber}
+          </h1>
+          <p className="text-sm text-gray-500 mt-0.5">Diamond Pair</p>
+        </div>
       </div>
 
-      <div className="px-4 py-5 space-y-4 max-w-lg mx-auto">
-        {/* Stone cards */}
-        {pair.stones.map((stone, i) => (
-          <div key={stone.lotNumber} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="bg-gray-900 px-4 py-2.5 flex items-center justify-between">
-              <span className="text-white text-sm font-semibold">Stone {i + 1}</span>
-              <span className="text-gray-400 text-xs font-mono">#{stone.lotNumber}</span>
+      <div className="px-4 py-5 max-w-4xl mx-auto">
+        {/* Stone cards: stacked on mobile, side-by-side on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          {pair.stones.map((stone, i) => (
+            <div key={stone.lotNumber} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="bg-gray-900 px-4 py-2.5 flex items-center justify-between">
+                <span className="text-white text-sm font-semibold">Stone {i + 1}</span>
+                <span className="text-gray-400 text-xs font-mono">#{stone.lotNumber}</span>
+              </div>
+              <div className="px-4 py-4 grid grid-cols-2 gap-x-4 gap-y-3">
+                <Field label="Shape" value={stone.shape} />
+                <Field label="Measurements" value={stone.measurements} />
+                <Field label="Length" value={`${fmt(stone.length)} mm`} />
+                <Field label="Width" value={`${fmt(stone.width)} mm`} />
+                <Field label="Ratio" value={fmt(stone.ratio, 3)} />
+                <Field label="Color" value={stone.color} />
+                <Field label="Clarity" value={stone.clarity} />
+                <Field label="Stone Weight" value={`${fmt(stone.stoneWeight, 3)} ct`} highlight />
+              </div>
             </div>
-            <div className="px-4 py-4 grid grid-cols-2 gap-x-4 gap-y-3">
-              <Field label="Shape" value={stone.shape} />
-              <Field label="Measurements" value={stone.measurements} />
-              <Field label="Length" value={`${fmt(stone.length)} mm`} />
-              <Field label="Width" value={`${fmt(stone.width)} mm`} />
-              <Field label="Ratio" value={fmt(stone.ratio, 3)} />
-              <Field label="Color" value={stone.color} />
-              <Field label="Clarity" value={stone.clarity} />
-              <Field label="Stone Weight" value={`${fmt(stone.stoneWeight, 3)} ct`} highlight />
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
 
-        {/* Pair summary */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="bg-gold px-4 py-2.5">
-            <span className="text-white text-sm font-semibold">Pair Summary</span>
-          </div>
-          <div className="px-4 py-4 space-y-3">
-            <SummaryRow label="Total Weight" value={`${fmt(pair.totalWeight, 3)} ct`} />
-            <div className="border-t border-gray-100" />
-            <SummaryRow label="Price per Carat" value={fmtPrice(pair.pricePerCarat)} />
-            <SummaryRow label="Total Price" value={fmtPrice(pair.totalPrice)} large />
+        {/* Pair summary: full width on mobile, centered and constrained on desktop */}
+        <div className="flex justify-center">
+          <div className="w-full md:w-96">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="bg-gold px-4 py-2.5">
+                <span className="text-white text-sm font-semibold">Pair Summary</span>
+              </div>
+              <div className="px-4 py-4 space-y-3">
+                <SummaryRow label="Total Weight" value={`${fmt(pair.totalWeight, 3)} ct`} />
+                <div className="border-t border-gray-100" />
+                <SummaryRow label="Price per Carat" value={fmtPrice(pair.pricePerCarat)} />
+                <SummaryRow label="Total Price" value={fmtPrice(pair.totalPrice)} large />
+              </div>
+            </div>
           </div>
         </div>
       </div>
