@@ -26,8 +26,8 @@ export default async function PairPage({ params }: { params: Promise<{ set: stri
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-5 text-center">
+      {/* Logo + contact */}
+      <div className="bg-white px-6 py-5 text-center">
         <div className="flex justify-center mb-3">
           <LogoImage className="h-12 object-contain" />
         </div>
@@ -37,12 +37,16 @@ export default async function PairPage({ params }: { params: Promise<{ set: stri
         <p className="text-xs text-gray-500">
           sales@shivanigems.com&nbsp;&nbsp;|&nbsp;&nbsp;212-593-2750
         </p>
-        <div className="border-t border-gray-100 mt-4 pt-4">
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-            Lot {pair.setNumber}
-          </h1>
-          <p className="text-sm text-gray-500 mt-0.5">Diamond Pair</p>
-        </div>
+      </div>
+
+      {/* Lot + shape — dark navy */}
+      <div className="bg-blue-900 px-6 py-4 text-center">
+        <h1 className="text-2xl font-bold text-white tracking-tight">
+          Lot {pair.setNumber}
+        </h1>
+        <p className="text-sm text-blue-200 mt-0.5">
+          {pair.stones[0]?.shape} Matched Pair
+        </p>
       </div>
 
       <div className="px-4 py-5 max-w-4xl mx-auto">
