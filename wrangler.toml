@@ -11,4 +11,4 @@ pages_build_output_dir = ".vercel/output/static"
 [[d1_databases]]
 binding = "DB"
 database_name = "diamondpairs"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "65709e10-3dcd-4b94-8016-ba7dec6f4b9c"

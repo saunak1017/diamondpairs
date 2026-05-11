@@ -1,6 +1,7 @@
 import { getRequestContext } from '@cloudflare/next-on-pages';
 import { notFound } from 'next/navigation';
 import type { DiamondPair } from '@/lib/types';
+import { LogoImage } from '@/components/LogoImage';
 
 export const runtime = 'edge';
 
@@ -28,7 +29,7 @@ export default async function PairPage({ params }: { params: Promise<{ set: stri
       {/* Header */}
       <div className="bg-white border-b border-gray-100 px-6 py-5 text-center">
         <div className="flex justify-center mb-3">
-          <img src="/Shivani.png" alt="Shivani Gems" className="h-12 object-contain" />
+          <LogoImage className="h-12 object-contain" />
         </div>
         <p className="text-xs text-gray-500 leading-relaxed">
           589 5th Ave, Suite 1107, New York, NY 10017
